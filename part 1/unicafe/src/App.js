@@ -9,12 +9,16 @@ const Statistics = ({ good, neutral, bad }) => {
       <h3>Statistics</h3>
       {(good + neutral + bad) !== 0 ? (
         <>
-          <Statistic text="good" value={good} />
-          <Statistic text="neutral" value={neutral} />
-          <Statistic text="bad" value={bad} />
-          <Statistic text="all" value={all} />
-          <Statistic text="average" value={avg} />
-          <Statistic text="positive" value={positive} />
+          <table>
+            <tbody>
+              <Statistic text="good" value={good} />
+              <Statistic text="neutral" value={neutral} />
+              <Statistic text="bad" value={bad} />
+              <Statistic text="all" value={all} />
+              <Statistic text="average" value={avg} />
+              <Statistic text="positive" value={positive} />
+            </tbody>
+          </table>
         </>
       ) :
         <div>No feedback given</div>
@@ -24,7 +28,11 @@ const Statistics = ({ good, neutral, bad }) => {
 }
 
 const Statistic = ({ text, value }) => {
-  return (<div>{text} {value}</div>)
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>)
 }
 
 const Button = ({ text, handleClicks }) => {
