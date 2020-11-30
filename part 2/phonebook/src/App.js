@@ -48,6 +48,15 @@ const App = () => {
     }
   };
 
+  const handleDelete = (name, id) => () => {
+    if (window.confirm(`Do you realy want to delete ${name}`)) {
+      PersonService.remove(id)
+        .then((_) => {
+          setPersons(persons.filter((person) => person.id !== id));
+        });
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -60,7 +69,9 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons personToShow={personToShow} />
+      <Persons 
+        handleDelete={handleDelete} 
+        personToShow={personToShow} />
     </div>
   );
 };
