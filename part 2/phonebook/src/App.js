@@ -44,7 +44,12 @@ const App = () => {
         setNewPerson({ name: '', number: '' });
       });
     } else {
-      window.alert(`${newPerson.name} is already added to phonebook`);
+      if(window.confirm(`${newPerson.name} is already aded to phonebook, replace old number with a new one?`)){
+        PersonService.update(duplicate[0].id, newPerson).then(data => {
+          setPersons(persons.map(person => person.id !== duplicate[0].id ? person : data));
+          setNewPerson({ name: '', number: '' });
+        })
+      }
     }
   };
 
