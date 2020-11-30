@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
-import Persons from './Persons';
-import PersonForm from './PersonForm';
-import Filter from './Filter';
-import Axios from 'axios';
+import Persons from './Components/Persons';
+import PersonForm from './Components/PersonForm';
+import Filter from './Components/Filter';
+import PersonService from './Services/Person';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newPerson, setNewPerson] = useState({ name: '', number: '' });
   const [predicate, setPredicate] = useState('');
   const [showAll, setShowAll] = useState(true);
-
   useEffect(() => {
-    Axios.get('http://localhost:3001/persons').then((response) => setPersons(response.data));
+    PersonService.getAll().then((data) => setPersons(data));
   }, []);
 
   const personToShow = showAll ? persons : persons.filter((person) => person.name.toLowerCase().includes(predicate));
@@ -40,8 +39,10 @@ const App = () => {
     event.preventDefault();
     const duplicate = persons.filter((person) => person.name === newPerson.name);
     if (duplicate.length === 0) {
-      setPersons(persons.concat(newPerson));
-      setNewPerson({ name: '', number: '' });
+      PersonService.save(newPerson).then((data) => {
+        setPersons(persons.concat(data));
+        setNewPerson({ name: '', number: '' });
+      });
     } else {
       window.alert(`${newPerson.name} is already added to phonebook`);
     }
